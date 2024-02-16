@@ -4,26 +4,18 @@ import time
 
 class TuringMachine:
     def __init__(self, machine_data):
-            self.transitions = machine_data["transitions"]
-            self.current_state = machine_data["initial"]
-            self.tape = []
-            self.position = 0
-            self.symbol = None
-        
-    def operation(self, input_str):
-        self.current_states = set([0])  # Inicializa com o estado inicial
-        for char in input_str:
-            self.step(char)
-        return 1 if any(state in self.transitions['final'] for state in self.current_states) else 0
-
+        self.transitions = machine_data["transitions"]
+        self.current_state = machine_data["initial"]
+        self.tape = [machine_data["white"]]  # Inicializa a fita com o caractere branco
+        self.position = 0
+        self.symbol = None
     
     def move_machine(self):
-        if self.position <(self.tape):
+        if self.position < len(self.tape):  # Corrigindo a comparação
             self.symbol = self.tape[self.position]
-        
         else:
-            self.symbol = self.machine_data["white"]
-        
+            self.symbol = self.tape[-1]  # Se a posição estiver além da fita, use o último símbolo
+
         transition_found = False
         for trans in self.transitions:
             if trans["from"] == self.current_state and trans["read"] == self.symbol:
@@ -34,7 +26,7 @@ class TuringMachine:
                 break
 
         if not transition_found:
-            print ("Não há transição aplicavel")
+            print("Não há transição aplicável")
 
 def machine_file(file_path):
     try:
@@ -71,24 +63,28 @@ def main():
     file_teste_path = 'entrada.csv'
     file_out_path = 'saida.csv'
 
-    machine = TuringMachine(machine_file (file_maq_path))
+    machine = TuringMachine(machine_file(file_maq_path))
     case_test = cases(file_teste_path)
 
     with open(file_out_path, 'w', newline='') as csv_file:
         writing = csv.writer(csv_file, delimiter=';')
         writing.writerow(["Palavra de entrada", "Resultado esperado", "Resultado obtido", "Tempo"])
 
-    for str_in_input, expected_result in case_test:
-        start_time = time.perf_counter()
-        result = machine.operation(str_in_input)
-        end_time = time.perf_counter()
+        for str_in_input, expected_result in case_test:
+            start_time = time.perf_counter()
+            machine.tape = [machine.machine_data["white"]] + list(str_in_input)  # Inicializa a fita com a entrada
+            machine.position = 0  # Reinicia a posição da cabeça de leitura/gravação
+            machine.current_state = machine.machine_data["initial"]  # Reinicia o estado da máquina
 
-        while machine.current_state not in machine_file.machine_data["final"]:
-            machine.move()
+            while machine.current_state not in machine.machine_data["final"]:
+                machine.move_machine()
 
-        execution_time = "{:.5f}".format(end_time - start_time)  # Formatação com cinco casas decimais
-        writing.writerow([str_in_input, expected_result, result, execution_time])
-        csv_file.flush()
+            result = ''.join(machine.tape[1:-1])  # Resultado é a fita sem os caracteres brancos adicionais
+            end_time = time.perf_counter()
+
+            execution_time = "{:.5f}".format(end_time - start_time)  # Formatação com cinco casas decimais
+            writing.writerow([str_in_input, expected_result, result, execution_time])
+            csv_file.flush()
 
 if __name__ == "__main__":
     main()
