@@ -9,6 +9,13 @@ class TuringMachine:
             self.tape = []
             self.position = 0
             self.symbol = None
+        
+    def operation(self, input_str):
+        self.current_states = set([0])  # Inicializa com o estado inicial
+        for char in input_str:
+            self.step(char)
+        return 1 if any(state in self.transitions['final'] for state in self.current_states) else 0
+
     
     def move_machine(self):
         if self.position <(self.tape):
