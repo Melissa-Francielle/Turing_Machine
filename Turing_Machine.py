@@ -3,36 +3,50 @@ import csv
 import time
 
 class TuringMachine:
-    def __init__(self, machine_data):
-        self.transitions = machine_data["transitions"]
-        self.current_state = machine_data["initial"]
-        self.tape = [machine_data["white"]]  # Inicializa a fita com o caractere branco
-        self.position = 0
-        self.symbol = None
-    
-    def move_machine(self):
-        if self.position < len(self.tape):  # Corrigindo a comparação
-            self.symbol = self.tape[self.position]
+    def __init__(self, tape = "", blank_symbol = "", initial = "", final_state = None, transitions = None):
+        self.tape = tape
+        self.head_position = 0
+        self.current_state = initial
+        if transitions == None:
+            self.transitions = {}
         else:
-            self.symbol = self.tape[-1]  # Se a posição estiver além da fita, use o último símbolo
+            self.transitions= transitions
+        if final_state == None:
+            self.final_state = set()
+        else:
+            self.final_state = set(final_state)
 
-        transition_found = False
-        for trans in self.transitions:
-            if trans["from"] == self.current_state and trans["read"] == self.symbol:
-                self.current_state = trans["to"]
-                self.tape[self.position] = trans["write"]
-                self.position += 1 if trans["move"] == "R" else -1 
-                transition_found = True
-                break
+    def get_tape(self):
+        return str(self.tape)
+    
+    def step(self):
+        char_head = self.tape[self.head_position]
+        x = (self.current_state, char_head)
+        if x in self.transitions:
+            y = self.transitions[x]
+            self.tape[self.head_position] = y["write"]
+            if y["move"] == "R":
+                self.head_position += 1
+            elif y["move"] == "L":
+                self.head_position -= 1
+            self.current_state = y["to"]
 
-        if not transition_found:
-            print("Não há transição aplicável")
-
+    def final(self):
+        if self.current_state in self.final_state:
+            return 1
+        else:
+            return 0
+    
 def machine_file(file_path):
     try:
         with open(file_path, 'r') as json_file:
             machine_data = json.load(json_file)
-        return machine_data
+            transitions = {}
+            for transition in machine_data['transitions']:
+                key = (transition['from'], transition['read'])
+                value = {'to': transition['to'], 'write': transition['write'], 'move': transition['move']}
+                transitions[key] = value
+            return transitions
     except FileNotFoundError:
         print(f"Arquivo {file_path} não encontrado.")
         return None
@@ -59,11 +73,12 @@ def cases(file_path):
         return []
 
 def main():
-    file_maq_path = 'arquivo.json'
+    file_maquina_path = 'arquivo.json'
     file_teste_path = 'entrada.csv'
     file_out_path = 'saida.csv'
 
-    machine = TuringMachine(machine_file(file_maq_path))
+    transitions = machine_file(file_maquina_path)
+    machine = TuringMachine(machine_file(file_maquina_path))
     case_test = cases(file_teste_path)
 
     with open(file_out_path, 'w', newline='') as csv_file:
@@ -72,17 +87,12 @@ def main():
 
         for str_in_input, expected_result in case_test:
             start_time = time.perf_counter()
-            machine.tape = [machine.machine_data["white"]] + list(str_in_input)  # Inicializa a fita com a entrada
-            machine.position = 0  # Reinicia a posição da cabeça de leitura/gravação
-            machine.current_state = machine.machine_data["initial"]  # Reinicia o estado da máquina
-
-            while machine.current_state not in machine.machine_data["final"]:
-                machine.move_machine()
-
-            result = ''.join(machine.tape[1:-1])  # Resultado é a fita sem os caracteres brancos adicionais
+            machine.head_position = 0  # Reinicia a posição da cabeça de leitura/gravação
+            result = machine.final()
+           # result = ''.join(machine.tape[1:-1])  # Resultado é a fita sem os caracteres brancos adicionais
             end_time = time.perf_counter()
 
-            execution_time = "{:.5f}".format(end_time - start_time)  # Formatação com cinco casas decimais
+            execution_time = "{:.7f}".format(end_time - start_time)  # Formatação com cinco casas decimais
             writing.writerow([str_in_input, expected_result, result, execution_time])
             csv_file.flush()
 
