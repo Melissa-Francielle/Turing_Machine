@@ -1,0 +1,18 @@
+{
+    "initial": [0],
+    "final_state": [4],
+    "blank_symbol": "_",
+    "tape": {},
+    "transitions":[
+        {"from": 0, "to": 1, "read": "a", "write": "A", "move":"R"},
+        {"from": 1, "to": 1, "read": "a", "write": "a", "move":"R"},
+        {"from": 1, "to": 1, "read": "B", "write": "B", "move":"R"},
+        {"from": 1, "to": 2, "read": "b", "write": "B", "move":"L"},
+        {"from": 2, "to": 2, "read": "B", "write": "B", "move":"L"},
+        {"from": 2, "to": 2, "read": "a", "write": "a", "move":"L"},
+        {"from": 2, "to": 0, "read": "A", "write": "A", "move":"R"},
+        {"from": 0, "to": 3, "read": "B", "write": "B", "move":"R"},
+        {"from": 3, "to": 3, "read": "B", "write": "B", "move":"R"},
+        {"from": 3, "to": 4, "read": "_", "write": "_", "move":"L"}      
+    ]
+}
