@@ -1,5 +1,5 @@
 # Implementação: Simulador de Máquina de Turing
-<img align="center" alt="imagem_ilustrativa" height="90" width="500" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/> 
+<img align="right" alt="imagem_ilustrativa" height="90" width="500" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/> 
 
 O objetivo do trabalho é simular a Máquina de Turing de Alan Turing. 
 
