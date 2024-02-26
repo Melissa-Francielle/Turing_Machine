@@ -1,19 +1,22 @@
-_Machine Turing_ 
+# Implementação: Simulador de Máquina de Turing
+<img align="center" alt="imagem_ilustrativa" height="90" width="500" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/> 
 
-# Máquina: 
-* Fita
-* Cabeça 
-* Registro de estados
-* Transições 
+O objetivo do trabalho é simular a Máquina de Turing de Alan Turing. 
 
-## Definição formal 
-M = (Q, Sigma, R, s, b, F, delta)
+Utilizando os conceitos da máquina, o simulador recebe:
+  * Arquivo.json
+  * Arquivo.txt
 
-* Q = Um conjunto finito de estados
-* Sigma = conjunto finito de simbolos distintos 
-* R = conjunto finito de simbolos da fita
-* s (pertence a Q) = é o estado inicial
-* b (pertence a R) = simbolo branco
-* F (contido em Q) = são os simbolos finais 
-* delta: Q x R -> Q x R x {E,D} é uma função parcial. E e D indicam o movimento da cabeça, sendo E esquerda e D direita. 
+E deve devolver:
+  * Saida.txt
+  * E imprimir no terminal 0 ou 1, sendo 1 para ACEITA e 0 para REJEITA.
 
+[Máquina](https://github.com/Melissa-Francielle/Turing_Machine/blob/main/Turing_Machine.py)
+
+[Arquivo.json](https://github.com/Melissa-Francielle/Turing_Machine/blob/main/Turing_Machine.py)
+
+[Entrada.txt](https://github.com/Melissa-Francielle/Turing_Machine/blob/main/entrada.txt)
+
+O Simulador é capaz de reconhecer outros arquivos.json e outras entradas.txt desde que sejam escritos de forma correta para que tenha o funcionamento correto da máquina.
+
+    
