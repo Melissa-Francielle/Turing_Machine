@@ -1,10 +1,4 @@
 import json 
-import time 
-
-def is_comment(line):
-    if line[0] == "#":
-        return True
-    return False
 
 class T_machine:
     def __init__ (self, machine_data):
@@ -26,8 +20,6 @@ class T_machine:
 
         while current_state not in self.final_state:
             current_symbol = tape_list[current_index]
-        #while current_state not in self.final_state or self.blank_symbol in tape_list:
-         #   current_symbol = tape_list[current_index]
 
             action = self.get_action(current_state, current_symbol)
             if action is None:
@@ -50,13 +42,16 @@ class T_machine:
 
             current_state = next_state
 
-            print("Tape:", "".join(tape_list))
         if current_state in self.final_state:
+            with open("saida.txt", "w") as output_file:
+                output_file.write("".join(tape_list).strip())
+
             print("1")  # Indica aceitação
-            return 1
-        if current_state not in self.final_state:
+        else:
+            with open("saida.txt", "w") as output_file:
+                output_file.write("".join(tape_list).strip())
+
             print("0")  # Indica rejeição
-            return 0 
 
 def machine_file(file_path):
     try:
