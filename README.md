@@ -1,7 +1,7 @@
 <html>
 <body>
  <h1> Implementação de Máquina de Turing </h1>
- <img align="right" alt="imagem_ilustrativa" height="90" width="500" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/> 
+ <img align="top" alt="imagem_ilustrativa" height="90" width="500" src="https://d18l82el6cdm1i.cloudfront.net/uploads/dfugTjn2WC-tm_palindrome.gif"/> 
  <p> O trabalho é referente a disciplina de Teoria da Computação do curso de Ciência da Computação pela Universidade do Norte do Paraná. </p>
  <p> O desenvolvimento deste trabalho foi implementado em linguagem Python. O trabalho busca simular uma Máquina de Turing originalmente desenvolvida por Alan Turing mais conhecido como pai da computação. </p>
  
